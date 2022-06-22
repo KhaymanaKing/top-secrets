@@ -5,8 +5,8 @@ const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
 
 const mockUser = { 
-  first_name: 'Test',
-  last_name: 'User',
+  firstName: 'Test',
+  lastName: 'User',
   email: 'test@example.com',
   password: '123456'
 };
@@ -25,12 +25,12 @@ describe('backend-express-template routes', () => {
     return setup(pool);
   });
   it('creates a new user', async() => {
-    const res = request(app).post('/api/v1/users').send(mockUser);
-    const { first_name, last_name, email } = mockUser;
+    const res = await request(app).post('/api/v1/users').send(mockUser);
+    const { firstName, lastName, email } = mockUser;
     expect(res.body).toEqual({
       id: expect.any(String),
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
     });
   });
