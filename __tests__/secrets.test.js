@@ -1,9 +1,16 @@
-const UserService = require('../services/UserService');
-const pool = require ('../utils/pool');
-const mockUser = require('../mocks/user');
+const UserService = require ('../lib/services/UserService');
+const pool = require ('../lib/utils/pool');
+// const app = require('../lib/app');
 const app = require('../lib/app');
-const request = require('supertest')(app);
+const request = require('supertest');
 const setup = require('../data/setup');
+
+const mockUser = { 
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test@example.com',
+  password: '123456'
+};
 
 const registerAndLogin = async (userProps = {}) => {
   const password = userProps.password ?? 'password';
