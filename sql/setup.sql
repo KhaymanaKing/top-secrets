@@ -15,5 +15,13 @@ CREATE TABLE secrets (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
-    created_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO secrets (
+    title,
+    description
+)
+
+Values
+('Lost Wallet', 'Lost my wallet today, if you see it please notify me');
