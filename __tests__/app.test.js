@@ -41,10 +41,20 @@ describe('backend-express-template routes', () => {
       .send({ email: 'test@example.com', password: '123456' });
     expect(res.status).toEqual(200);
   });
-  it('/protected should return a 401 if not authenticated', async () => {
-    const res = await request(app).get('/api/v1/users/secrets');
-    expect(res.status).toEqual(401);
+  // it('/protected should return a 401 if not authenticated', async () => {
+  //   const res = await request(app).get('/api/v1/users/secrets');
+  //   expect(res.status).toEqual(401);
+  // });
+  it('sign in an existing user then sign them out', async () => {
+    await request(app).post('/api/v1/users').send(mockUser);
+    const signInRes = await request(app)
+      .post('/api/v1/users/sessions')
+      .send({ email: 'test@example.com', password: '123456' });
+    expect(signInRes.status).toEqual(200);
+    const signOutRes = await request(app).delete('/api/v1/users');
+    expect(signOutRes.status).toEqual(401);
   });
+  
 
   afterAll(() => {
     pool.end();
