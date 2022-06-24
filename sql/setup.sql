@@ -13,8 +13,8 @@ CREATE TABLE users (
 
 CREATE TABLE secrets (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    title TEXT NOT NULL,
-    description TEXT NOT NULL,
+    title VARCHAR,
+    description VARCHAR,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
