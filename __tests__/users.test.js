@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-// const UserService = require('../lib/services/UserService');
+const UserService = require('../lib/services/UserService');
 
 const mockUser = { 
   firstName: 'Test',
@@ -11,14 +11,14 @@ const mockUser = {
   password: '123456'
 };
 
-// const registerAndLogin = async (userProps = {}) => {
-//   const password = userProps.password ?? mockUser.password;
-//   const agent = request.agent(app);
-//   const user = await UserService.create({ ...mockUser, ...userProps });
-//   const { email } = user;
-//   await agent.post('/api/v1/users/sessions').send ({ email, password });
-//   return [agent, user];
-// };
+const registerAndLogin = async (userProps = {}) => {
+  const password = userProps.password ?? mockUser.password;
+  const agent = request.agent(app);
+  const user = await UserService.create({ ...mockUser, ...userProps });
+  const { email } = user;
+  await agent.post('/api/v1/users/sessions').send ({ email, password });
+  return [agent, user];
+};
 
 describe('backend-express-template routes', () => {
   beforeEach(() => {
@@ -46,15 +46,13 @@ describe('backend-express-template routes', () => {
     expect(res.status).toEqual(401);
   });
 
-  it('sign in an existing user then sign them out', async () => {
-    await request(app).post('/api/v1/users').send(mockUser);
-    const signInRes = await request(app)
-      .post('/api/v1/users/sessions')
-      .send({ email: 'test@example.com', password: '123456' });
-    expect(signInRes.status).toEqual(200);
-    const signOutRes = await request(app).delete('/api/v1/users');
-    expect(signOutRes.status).toEqual(401);
+  it('signs an existing user out', async () => {
+    const [agent] = await registerAndLogin();
+    await agent.delete('/api/v1/secrets');
+    const res = await request(app).get('/api/v1/secrets');
+    expect(res.body.status).toEqual(401);
   });
+
   
   // TODO testing successful and unsuccessful route for authenticated 
   afterAll(() => {
