@@ -31,6 +31,19 @@ describe('secrets path', () => {
     const secrets = await Secret.getAll();
     expect(res.body).toEqual(secrets);
   });
+  //TODO add a create secrets.
+  it('adds a new secret', async () => {
+    const [agent] = await registerAndLogin();
+    const res = await agent
+      .post('/api/v1/secrets')
+      .send({
+        title: 'Trapped in the bathroom',
+        description: 'Help stuck in bathroom please send someone'
+      });
+    expect(res.status).toBe(200);
+    expect(res.body.description).toEqual('Help stuck in bathroom please send someone');
+    expect(res.body.title).toEqual('Trapped in the bathroom');
+  });
 });
 
 
