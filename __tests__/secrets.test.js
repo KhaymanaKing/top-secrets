@@ -40,6 +40,7 @@ describe('secrets path', () => {
         title: 'Trapped in the bathroom',
         description: 'Help stuck in bathroom please send someone'
       });
+      
     expect(res.status).toBe(200);
     expect(res.body.description).toEqual('Help stuck in bathroom please send someone');
     expect(res.body.title).toEqual('Trapped in the bathroom');
